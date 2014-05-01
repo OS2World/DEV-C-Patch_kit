@@ -1,0 +1,36 @@
+The enclosed GNU program was ported and compiled using the emx/gcc
+compiler kit. A preliminary and modified version based on the beta 0.8d
+was used. Over the distributed version 0.8d it included a number of bug
+fixes and changes. 
+
+As a result, you may be unable to recompile the enclosed sources with
+plain 0.8d or may need to do a few changes or experience strange
+behaviour of the compiled programs in some rare cases. With the next
+release of emx/gcc, these problems will hopefully disappear.
+
+This archive includes a copy of EMX.DLL, a runtime module of the emx/gcc
+system and C library. If you already have a version of it, keep the
+newer version of both (it may be wise to keep a backup copy of the older
+one too).
+
+In case you have the full emx/gcc package yourself, you may be able to
+run the program(s) under plain MS-DOS using the EMX.EXE DOS extender.
+This is not supported and completely untested.
+
+The enclosed program(s) and source code is distributed under the GNU
+license. The archive includes full source code and a file patches.os2
+which documents all changes made to compile it with emx/gcc under OS/2
+version 2.0. See the file COPYING for details of the GNU license.
+
+EMX is an environment/toolkit for use of GNU programs under OS/2 2.0,
+written by Eberhard Mattes.
+
+Kai Uwe Rommel
+
+--
+/* Kai Uwe Rommel           Zennerstrasse 1, D-8000 Muenchen 70, Germany *
+ * rommel@jonas.bofe.sub.org                       Phone +49 89 723 4101 *
+ * rommel@informatik.tu-muenchen.de                  Fax +49 89 723 7889 */
+
+DOS ... is still a real mode only non-reentrant interrupt
+handler, and always will be.                -Russell Williams

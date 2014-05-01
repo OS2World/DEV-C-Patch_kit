@@ -1,0 +1,133 @@
+Mon Mar 16 14:10:42 1992  David J. MacKenzie  (djm@wookumz.gnu.ai.mit.edu)
+
+	* patchlevel.h: PATCHLEVEL 12u6.
+
+Sat Mar 14 13:13:29 1992  David J. MacKenzie  (djm at frob.eng.umd.edu)
+
+	* Configure, config.h.SH: Check for directory header and unistd.h.
+
+	* patch.c (main): If -E was given and output file is empty after
+	patching, remove it.
+	(get_some_switches): Recognize -E option.
+
+	* patch.c (copy_till): Make garbled output an error, not a warning
+	that doesn't change the exit status.
+
+	* common.h: Protect against system declarations of malloc and realloc.
+
+	* Makedist: Add backupfile.[ch].
+
+	* Configure: Look for C library where NeXT and SVR4 put it.
+	Look in /usr/ucb after /bin and /usr/bin for utilities,
+	and look in /usr/ccs/bin, to make SVR4 happier.
+	Recognize m68k predefine.
+
+	* util.c (fetchname): Test of stat return value was backward.
+	From csss@scheme.cs.ubc.ca.
+
+	* version.c (version): Exit with status 0, not 1.
+
+	* Makefile.SH: Add backupfile.[cho].
+	* patch.c (main): Initialize backup file generation.
+	(get_some_switches): Add -V option.
+	* common.h, util,c, patch.c: Replace origext with simple_backup_suffix.
+	* util.c (move_file): Use find_backup_file_name.
+
+Tue Dec  3 11:27:16 1991  David J. MacKenzie  (djm at wookumz.gnu.ai.mit.edu)
+
+	* patchlevel.h: PATCHLEVEL 12u5.
+
+	* Makefile.SH: Change clean, distclean, and realclean targets a
+	little so they agree with the GNU coding standards.
+	Add Makefile to addedbyconf, so distclean removes it.
+
+	* Configure: Recognize Domain/OS C library in /lib/libc.
+	From mmuegel@mot.com (Michael S. Muegel).
+
+	* pch.c: Fixes from Wayne Davison:
+	Patch now accepts no-context context diffs that are
+	specified with an assumed one line hunk (e.g.  "*** 10 ****").
+	Fixed a bug in both context and unified diff processing that would
+	put a zero-context hunk in the wrong place (one line too soon).
+	Fixed a minor problem with p_max in unified diffs where it would
+	set p_max to hunkmax unnecessarily (the only adverse effect was to
+	not supply empty lines at eof by assuming they were truncated).
+
+Tue Jul  2 03:25:51 1991  David J. MacKenzie  (djm at geech.gnu.ai.mit.edu)
+
+	* Configure: Check for signal declaration in
+	/usr/include/sys/signal.h as well as /usr/include/signal.h.
+
+	* Configure, common.h, config.h.SH: Comment out the sprintf
+	declaration and tests to determine its return value type.  It
+	conflicts with ANSI C systems' prototypes in stdio.h and the
+	return value of sprintf is never used anyway -- it's always cast
+	to void.
+
+Thu Jun 27 13:05:32 1991  David J. MacKenzie  (djm at churchy.gnu.ai.mit.edu)
+
+	* patchlevel.h: PATCHLEVEL 12u4.
+
+Thu Feb 21 15:18:14 1991  David J. MacKenzie  (djm at geech.ai.mit.edu)
+
+	* pch.c (another_hunk): Fix off by 1 error.  From
+	iverson@xstor.com (Tim Iverson).
+
+Sun Jan 20 20:18:58 1991  David J. MacKenzie  (djm at geech.ai.mit.edu)
+
+	* Makefile.SH (all): Don't make a dummy `all' file.
+
+	* patchlevel.h: PATCHLEVEL 12u3.
+
+	* patch.c (nextarg): New function.
+	(get_some_switches): Use it, to prevent dereferencing a null
+	pointer if an option that takes an arg is not given one (is last
+	on the command line).  From Paul Eggert.
+
+	* pch.c (another_hunk): Fix from Wayne Davison to recognize
+	single-line hunks in unified diffs (with a single line number
+	instead of a range).
+
+	* inp.c (rev_in_string): Don't use `s' before defining it.  From
+	Wayne Davison.
+
+Mon Jan  7 06:25:11 1991  David J. MacKenzie  (djm at geech.ai.mit.edu)
+
+	* patchlevel.h: PATCHLEVEL 12u2.
+
+	* pch.c (intuit_diff_type): Recognize `+++' in diff headers, for
+	unified diff format.  From unidiff patch 1.
+
+Mon Dec  3 00:14:25 1990  David J. MacKenzie  (djm at albert.ai.mit.edu)
+
+	* patch.c (get_some_switches): Make the usage message more
+	informative.
+
+Sun Dec  2 23:20:18 1990  David J. MacKenzie  (djm at albert.ai.mit.edu)
+
+	* Configure: When checking for C preprocessor, look for 'abc.*xyz'
+	instead of 'abc.xyz', so ANSI C preprocessors work.
+
+	* Apply fix for -D from ksb@mentor.cc.purdue.edu (Kevin Braunsdorf).
+
+	* Apply unidiff patches from davison@dri.com (Wayne Davison).
+
+Wed Mar  7 23:47:25 1990  Jim Kingdon  (kingdon at pogo.ai.mit.edu)
+
+	* pch.c: Call malformed instead of goto malformed
+	(just allows easier debugging).
+
+Tue Jan 23 21:27:00 1990  Jim Kingdon  (kingdon at pogo.ai.mit.edu)
+
+	* common.h (TMP*NAME): Make these char *, not char [].
+	patch.c (main): Use TMPDIR (if present) to set TMP*NAME.
+	common.h: Declare getenv.
+
+Sun Dec 17 17:29:48 1989  Jim Kingdon  (kingdon at hobbes.ai.mit.edu)
+
+	* patch.c (reverse_flag_specified): New variable.
+	(get_some_switches, reinitialize_almost_everything): Use it.
+
+Local Variables:
+version-control: never
+end:

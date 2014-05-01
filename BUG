@@ -1,0 +1,89 @@
+From NewsServ!math.fu-berlin.de!news.netmbx.de!Germany.EU.net!mcsun!uunet!cis.ohio-state.edu!farside.TWinsun.COM!eggert Fri Jun 19 20:17:32 MESZ 1992
+Article: 3084 of gnu.utils.bug
+Newsgroups: gnu.utils.bug
+Path: NewsServ!math.fu-berlin.de!news.netmbx.de!Germany.EU.net!mcsun!uunet!cis.ohio-state.edu!farside.TWinsun.COM!eggert
+From: eggert@farside.TWinsun.COM (Paul Eggert)
+Subject: Re: patch 2.0 patchlevel 12u6 chokes on pre-requisite
+Message-ID: <bi4*^EBR@twinsun.com>
+Sender: gnulists@ai.mit.edu
+Organization: Twin Sun, Inc
+References: <9206171806.AA14912@anthrax.cs.duke.edu>
+Distribution: gnu
+Date: Thu, 18 Jun 1992 18:30:42 GMT
+Approved: bug-gnu-utils@prep.ai.mit.edu
+Lines: 72
+
+khera@cs.duke.edu (Vivek Khera) writes:
+
+>patch failed to recognize the name of the file to patch: ... [given] ...
+>Index: patchlevel.h
+
+Here's a patch to patch's util.c that fixed this for me.
+I've already reported this to bug-gnu-utils,
+but I'm repeating it now since it seems timely.
+
+===================================================================
+RCS file: util.c,v
+retrieving revision 2.0
+diff -c2 -r2.0 util.c
+*** util.c	1992/03/15 02:52:43	2.0
+--- util.c	1992/05/15 22:30:50
+***************
+*** 340,352 ****
+      if (!at)
+  	return Nullch;
+!     s = savestr(at);
+!     for (t=s; isspace(*t); t++) ;
+!     name = t;
+  #ifdef DEBUGGING
+      if (debug & 128)
+! 	say4("fetchname %s %d %d\n",name,strip_leading,assume_exists);
+  #endif
+!     if (strnEQ(name, "/dev/null", 9))	/* so files can be created by diffing */
+  	return Nullch;			/*   against /dev/null. */
+      for (; *t && !isspace(*t); t++)
+  	if (*t == '/')
+--- 340,352 ----
+      if (!at)
+  	return Nullch;
+!     while (isspace(*at)) at++;
+  #ifdef DEBUGGING
+      if (debug & 128)
+! 	say4("fetchname %s %d %d\n",at,strip_leading,assume_exists);
+  #endif
+!     if (strnEQ(at, "/dev/null", 9) && (!at[9] || isspace(at[9])))
+! 					/* so files can be created by diffing */
+  	return Nullch;			/*   against /dev/null. */
++     name = s = t = savestr(at);
+      for (; *t && !isspace(*t); t++)
+  	if (*t == '/')
+***************
+*** 354,369 ****
+  		name = t+1;
+      *t = '\0';
+-     if (name != s && *s != '/') {
+- 	name[-1] = '\0';
+- 	if (stat(s, &filestat) == 0 && (filestat.st_mode & S_IFDIR)) {
+- 	    name[-1] = '/';
+- 	    name=s;
+- 	}
+-     }
+      name = savestr(name);
+-     Sprintf(tmpbuf, "RCS/%s", name);
+      free(s);
+      if (stat(name, &filestat) < 0 && !assume_exists) {
+! 	Strcat(tmpbuf, RCSSUFFIX);
+  	if (stat(tmpbuf, &filestat) < 0 && stat(tmpbuf+4, &filestat) < 0) {
+  	    Sprintf(tmpbuf, "SCCS/%s%s", SCCSPREFIX, name);
+--- 354,361 ----
+  		name = t+1;
+      *t = '\0';
+      name = savestr(name);
+      free(s);
+      if (stat(name, &filestat) < 0 && !assume_exists) {
+! 	Sprintf(tmpbuf, "RCS/%s%s", name, RCSSUFFIX);
+  	if (stat(tmpbuf, &filestat) < 0 && stat(tmpbuf+4, &filestat) < 0) {
+  	    Sprintf(tmpbuf, "SCCS/%s%s", SCCSPREFIX, name);
+
+
+
